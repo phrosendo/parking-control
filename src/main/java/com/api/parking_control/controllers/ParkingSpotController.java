@@ -55,17 +55,17 @@ public class ParkingSpotController {
 		
 		// Verifica se a placa do veículo já está cadastrada em alguma Vaga.
 		if (parkingSpotService.existsByLicensePlateCar(parkingSpotDTO.getLicensePlateCar())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: License Plate Car is already in use!");
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: A placa deste veículo já está cadastrada!");
 		}
 		// Verifica se a vaga não está ocupada através do Número da Vaga.
 		else if (parkingSpotService.existsByParkingSpotNumber(parkingSpotDTO.getParkingSpotNumber())) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Parking Spot is already in use!");
+			return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro: A vaga de estacionamento já está em uso!");
 		}
 		// Verifica se a vaga já foi registrada para o Apartamento e Bloco informados.
 		else if (parkingSpotService.existsByApartmentAndBlock(parkingSpotDTO.getApartment(),
 				parkingSpotDTO.getBlock())) {
 			return ResponseEntity.status(HttpStatus.CONFLICT)
-					.body("Error: Parking Spot already registered for this apartment/block!");
+					.body("Erro: Vaga de estacionamento já cadastrada para este apartamento/bloco!");
 		} else {
 			// Converte o DTO em um Model para inserir na tabela.
 			BeanUtils.copyProperties(parkingSpotDTO, parkingSpotModel);
@@ -95,7 +95,7 @@ public class ParkingSpotController {
 	public ResponseEntity<Object> getOneParkingSpot(@PathVariable(value = "id") Integer id) {
 		Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
 		if (!parkingSpotModelOptional.isPresent()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Não foi possível encontrar o cadastro desta vaga!");
 		}
 		return ResponseEntity.status(HttpStatus.OK).body((parkingSpotModelOptional.get()));
 	}
@@ -104,11 +104,11 @@ public class ParkingSpotController {
     public ResponseEntity<Object> deleteParkingSpot(@PathVariable(value = "id")Integer id){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
         if (!parkingSpotModelOptional.isPresent()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Não foi possível encontrar o cadastro desta vaga!");
         }
         
         parkingSpotService.delete(parkingSpotModelOptional.get());
-        return ResponseEntity.status(HttpStatus.OK).body("Parking Spot deleted successfuly.");
+        return ResponseEntity.status(HttpStatus.OK).body("Vaga de estacionamento excluída com sucesso!.");
     }
 
 	@PutMapping("/atualizar/{id}")
@@ -116,7 +116,7 @@ public class ParkingSpotController {
     												@RequestBody @Valid ParkingSpotDTO parkingSpotDTO){
         Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
         if(!parkingSpotModelOptional.isPresent()) {
-        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Parking Spot not found.");
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro: Não foi possível encontrar o cadastro desta vaga!");
         }
         
         var parkingSpotModel = new ParkingSpotModel();

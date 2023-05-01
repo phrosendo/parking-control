@@ -26,8 +26,10 @@ public class ParkingSpotDTO {
     private String apartment;
     @NotBlank(message = "O preenchimento do Bloco é obrigatório!")
     private String block;
-    @Email @NotBlank(message = "O preenchimento do E-mail é obrigatório!")
+    @Email(message = "Email com preenchimento inválido")
+    @NotBlank(message = "O preenchimento do E-mail é obrigatório!")
     private String email;
-    @CPF @NotBlank(message = "O preenchimento do CPF é obrigatório!")
+    @CPF(message = "CPF com preenchimento inválido!") 
+    @NotBlank(message = "O preenchimento do CPF é obrigatório!")
     private String cpf;
 }

@@ -9,7 +9,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: phrosendo
-      MYSQL_USER: teste
+      MYSQL_USER: developer
       MYSQL_PASSWORD: Zmkd@100
       MYSQL_ROOT_PASSWORD: Zmkd@100
     ports:
